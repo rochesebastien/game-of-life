@@ -53,7 +53,7 @@ npm run dev
 # or
 yarn dev
 ```
-Open your browser and go to http://localhost:3000.
+Open your browser and go to http://localhost:5173.
 
 # Project Structure
 ```
