@@ -1,35 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import Grid from './components/Grid';
-import Controls from './components/Controls';
+import {
+  Routes,
+  Route,
+} from "react-router-dom";
+
+import Home from "./pages/Home";
+import Game from "./pages/Game";
+import Info from "./pages/Info";
 
 function App() {
-  const rows = 40;
-  const cols = 40;
-  const createEmptyGrid = () => {
-    return Array.from({ length: rows }).map(() => Array(cols).fill(false));
-  };
-
-
-  const [grid, setGrid] = useState(createEmptyGrid());
-  const [running, setRunning] = useState(false);
-  const [speed, setSpeed] = useState(500);
-
-  const resetGrid = () => {
-    setRunning(false);
-    setGrid(createEmptyGrid());
-  };
-
   return (
-    <div style={{ textAlign: 'center' }}>
-      <h1>Jeu de la vie de Conway</h1>
-      <Controls
-        running={running}
-        setRunning={setRunning}
-        resetGrid={resetGrid}
-        setSpeed={setSpeed}
-      />
-      <Grid rows={rows} cols={cols} grid={grid} setGrid={setGrid} running={running} speed={speed} />
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/game" element={<Game />} />
+      <Route path="/info" element={<Info />} />
+    </Routes>
   );
 }
 
