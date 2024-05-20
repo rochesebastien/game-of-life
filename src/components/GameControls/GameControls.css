@@ -2,4 +2,44 @@
     position: fixed;
     right: 20px;
     bottom: 20px;
+    padding: 1rem;
+    border: 2px solid white;
+    background-color: black;
+    border-radius: 30px;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+
+    span{
+        cursor: pointer;
+        display: flex;
+        background-color: #131314;
+        padding: 0.5rem;
+        border-radius: 8px;
+    }
+
+    span:hover{
+        background-color: rgba(66, 65, 65, 0.5)
+    }
+
+    img{
+        filter: invert(1);
+    }
+}
+
+.speed {
+    display: flex;
+    gap: 0.5rem;
+
+    input{
+        display: none;
+        cursor: pointer;
+    }
+
+    &:hover input{
+        display: flex;
+        gap: 0.5rem;
+    }
 }
