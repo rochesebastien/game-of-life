@@ -1,6 +1,8 @@
 # Game of Life - React & Vite
 
-Welcome to the "Game of Life" project, developed using React and Vite as the bundler. This project implements the cellular automaton known as the "Game of Life", invented by mathematician John Horton Conway.
+![Image Description](docs/readme_cover.jpg)
+
+Welcome to the "Game of Life" project, developed using React. This project implements the cellular automaton known as the "Game of Life", invented by mathematician John Horton Conway.
 
 # Table of Contents
 
@@ -10,8 +12,6 @@ Welcome to the "Game of Life" project, developed using React and Vite as the bun
 4. Installation
 5. Usage
 6. Project Structure
-7. Contribution
-8. License
 
 
 # Project Overview
@@ -32,9 +32,10 @@ The "Game of Life" is a cellular automaton where cells live or die based on simp
 
 1. Clone the repository:
 
-```
-https://github.com/rochesebastien/game-of-life.git
-game-of-life
+```bash
+git clone https://github.com/rochesebastien/game-of-life.git
+# ---
+cd game-of-life
 ```
 
 2. Install dependencies:
@@ -57,30 +58,27 @@ Open your browser and go to http://localhost:5173.
 
 # Project Structure
 ```
-game-of-life-react-vite/
-├── public/                 # Static files
+game-of-life/
+├── public/                 # Static files (images/icons/audio)
 ├── src/
-│   ├── components/         # React components
-│   │   ├── Cell.jsx        # Cell component
-│   │   ├── Grid.jsx        # Grid component
-│   │   ├── Controls.jsx    # Controls component
-│   ├── styles/             # CSS styles
-│   ├── App.jsx             # Main component
-│   ├── main.jsx            # Application entry point
-├── index.html              # Main HTML file
-├── vite.config.js          # Vite configuration
-├── package.json            # Dependencies and scripts
-└── README.md               # Project documentation
+│   ├── components/                                # React components
+│   │   │   ├── Component                          # Component folder
+│   │   │   │   │── Component.jsx                  # Component JSX file
+│   │   │   │   │── Component.css                  # Component CSS file
+│   │   │   ├── ...                                # ...
+│   ├── pages/                                     # Pages folder
+│   │   │   ├── Page                               # Page folder
+│   │   │   │   │── Page.jsx                       # Page JSX file
+│   │   │   │   │── Page.css                       # Page CSS file
+│   │   │   ├── ...                                # ...
+│   ├── styles/                                    # Basic CSS styles
+│   ├── App.jsx                                    # Layout Rooter
+│   ├── main.jsx                                   # Application entry point
+├── index.html                                     
+├── vite.config.js                                 
+├── package.json                                   # Node Dependencies
+└── README.md             
 ```
 
-# Contribution
-Contributions are welcome! If you would like to contribute, please follow these steps:
-
-- Fork the repository.
-- Create a branch for your feature (git checkout -b feature-new-feature).
-- Commit your changes (git commit -m 'feat/fix(scope): description').
-- Push your branch (git push origin feature-new-feature).
-- Open a Pull Request.
-
-# License
-This project is licensed under the MIT License. See the LICENSE file for more details. (Will be added lataer)
+---
+2024 - Roche Sébastien
