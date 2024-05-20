@@ -4,8 +4,8 @@ function Cell({ isAlive, toggleCellState }) {
   const cellStyle = {
     width: '20px',
     height: '20px',
-    backgroundColor: isAlive ? 'black' : 'white',
-    border: '1px solid #ccc',
+    backgroundColor: isAlive ? 'white' : 'black',
+    border: '1px solid #171718',
     display: 'inline-block'
   };
 

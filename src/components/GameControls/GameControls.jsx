@@ -1,8 +1,9 @@
 import React from "react";
+import './GameControls.css';
 
-function Controls({ running, setRunning, resetGrid, setSpeed }) {
+function GameControls({ running, setRunning, resetGrid, setSpeed }) {
     return (
-        <div>
+        <div className="game_controls">
             <button onClick={() => setRunning(!running)}>
                 {running ? 'Pause' : 'Start'}
             </button>
@@ -21,4 +22,4 @@ function Controls({ running, setRunning, resetGrid, setSpeed }) {
     );
 }
 
-export default Controls;
+export default GameControls;

@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import Grid from '../../components/Grid';
-import Controls from '../../components/Controls';
-
+import React, { useState, useEffect, useRef } from 'react';
+import NavLogo from '../../components/NavLogo/NavLogo';'../../components/NavLogo/NavLogo'
+import Grid from '../../components/Grid/Grid';
+import GameControls from '../../components/GameControls/GameControls';
+import './Game.css'
 function GamePage() {
-  const rows = 40;
-  const cols = 40;
+  const rows = Math.floor((0.9*window.innerHeight)/20);
+  const cols = Math.floor((0.9*window.innerWidth)/20);
+
   const createEmptyGrid = () => {
     return Array.from({ length: rows }).map(() => Array(cols).fill(false));
   };
-
 
   const [grid, setGrid] = useState(createEmptyGrid());
   const [running, setRunning] = useState(false);
@@ -20,9 +21,9 @@ function GamePage() {
   };
 
   return (
-    <div style={{ textAlign: 'center' }}>
-      <h1>Jeu de la vie de Conway</h1>
-      <Controls
+    <div className='game_ctn'>
+      <NavLogo />
+      <GameControls
         running={running}
         setRunning={setRunning}
         resetGrid={resetGrid}

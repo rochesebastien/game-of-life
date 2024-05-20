@@ -1,0 +1,7 @@
+.navlogo{
+    position: fixed;
+    z-index: 1;
+    left: -40px;
+    top: -7px;
+    transform: scale(0.5);
+}

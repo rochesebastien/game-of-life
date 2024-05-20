@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Cell from './Cell';
-
+import Cell from '../Cell';
+import './Grid.css';
 function Grid({ rows, cols, grid, setGrid, running, speed }) {
+
     const toggleCellState = (row, col) => {
         const newGrid = grid.map((rowArr, rowIndex) =>
             rowArr.map((cell, colIndex) => {
@@ -13,6 +14,7 @@ function Grid({ rows, cols, grid, setGrid, running, speed }) {
         );
         setGrid(newGrid);
     };
+
 
     const nextGeneration = () => {
         const newGrid = grid.map((rowArr, rowIndex) =>
@@ -55,7 +57,7 @@ function Grid({ rows, cols, grid, setGrid, running, speed }) {
     }, [running, grid]);
 
     return (
-        <div>
+        <div className="grid">
             {grid.map((row, rowIndex) => (
                 <div key={rowIndex} style={{ display: 'flex' }}>
                     {row.map((cell, colIndex) => (

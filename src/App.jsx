@@ -11,7 +11,7 @@ import SoundControl from "./components/SoundControl/SoundControl";
 
 function App() {
   return (
-    <>
+    <div style={{ width: '100vw' }}>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />
@@ -19,7 +19,7 @@ function App() {
         <Route path="/info" element={<InfoPage />} />
       </Routes>
       <SoundControl />
-    </>
+    </div>
   );
 }
 
