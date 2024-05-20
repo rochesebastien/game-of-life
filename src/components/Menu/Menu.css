@@ -1,0 +1,42 @@
+.home_menu .main_logo{
+    position: absolute;
+    top: 20%;
+}
+
+.home_menu{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 25%;
+}
+
+.btn{
+    text-decoration: none;
+    background-color: #fff;
+    font-family: var(--primary-font, 'Pixelify Sans', sans-serif);
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 2rem;
+    border-radius: 8px;
+    color: black;
+    box-shadow: 0 9px black;
+    margin-bottom: 20px;
+    width: 300px;
+    height:60px;
+    transition: 0.1s ease-in;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover{
+    color: #F1F1F1;
+    background-color: black;
+    box-shadow: 0 4px #323031;
+    margin-top:5px
+}

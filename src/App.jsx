@@ -3,9 +3,9 @@ import {
   Route,
 } from "react-router-dom";
 
-import Home from "./pages/Home";
-import Game from "./pages/Game";
-import Info from "./pages/Info";
+import Home from "./pages/Home/Home";
+import Game from "./pages/Game/Game";
+import Info from "./pages/Info/Info";
 
 function App() {
   return (

@@ -1,19 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Rubik&display=swap');
+
+:root {
+  --primary-bg: #131314;
+  --secondary-bg: #161618;
+  /* --tertiary-color: #f0f0f0; */
+  --primary-color: #f0f0f0;
+  --primary-font: 'Pixelify Sans', sans-serif;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  isolation: isolate;
+}
+
 body {
   font-family: Arial, sans-serif;
   display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100vh;
   margin: 0;
-}
-
-button {
-  margin: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-}
-
-label {
-  margin-left: 10px;
-  font-size: 16px;
+  background-color: var(--primary-bg, #161618);
+  color: var(--primary-color, #f0f0f0);
+  font-family: var(--primary-font, 'Pixelify Sans', sans-serif);
 }
