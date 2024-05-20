@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Cell from '../../components/Cell'
 import Grid from '../../components/Grid';
 import Controls from '../../components/Controls';
 
-function Game() {
+function GamePage() {
   const rows = 40;
   const cols = 40;
   const createEmptyGrid = () => {
@@ -34,4 +33,4 @@ function Game() {
   );
 }
 
-export default Game;
+export default GamePage;

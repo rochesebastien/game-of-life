@@ -1,0 +1,19 @@
+.sound_controls{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    position: fixed;
+    bottom: 0;
+    margin: 1.5rem;
+    padding: 1rem;
+    border: 2px solid white;
+    border-radius: 30px;
+    gap: 0.5rem;
+    cursor:pointer;
+}
+
+.sound_controls img{
+    filter: invert(1);
+}
+

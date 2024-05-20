@@ -1,6 +1,6 @@
 import Menu from "../../components/Menu/Menu";
 import './Home.css';
-function Home() {
+function HomePage() {
 
     return (
         <div className='homepage'>
@@ -11,4 +11,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default HomePage;

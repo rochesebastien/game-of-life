@@ -3,18 +3,23 @@ import {
   Route,
 } from "react-router-dom";
 
-import Home from "./pages/Home/Home";
-import Game from "./pages/Game/Game";
-import Info from "./pages/Info/Info";
+import HomePage from "./pages/Home/Home";
+import GamePage from "./pages/Game/Game";
+import InfoPage from "./pages/Info/Info";
+
+import SoundControl from "./components/SoundControl/SoundControl";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/game" element={<Game />} />
-      <Route path="/info" element={<Info />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/game" element={<GamePage />} />
+        <Route path="/info" element={<InfoPage />} />
+      </Routes>
+      <SoundControl />
+    </>
   );
 }
 
