@@ -2,6 +2,7 @@ import React from "react";
 import './GameControls.css';
 
 function GameControls({ running, setRunning, resetGrid, setSpeed }) {
+
     return (
         <div className="game_controls">
 
@@ -18,10 +19,10 @@ function GameControls({ running, setRunning, resetGrid, setSpeed }) {
                 <img src="/icons/gauge.svg" alt="Play"/>
                 <input 
                     type="range"
-                    min="100"
-                    max="1000"
-                    step="100"
-                    // onChange={(e) => setSpeed(Number(e.target.value))}
+                    min="0"
+                    max="500"
+                    defaultValue="25"
+                    onChange={(e) => setSpeed(500 - Number(e.target.value))}
                 />
             </span>
         </div>

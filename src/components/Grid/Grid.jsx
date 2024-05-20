@@ -53,6 +53,7 @@ function Grid({ rows, cols, grid, setGrid, running, speed }) {
                 nextGeneration();
             }, speed);
             return () => clearInterval(interval);
+;
         }
     }, [running, grid]);
 
