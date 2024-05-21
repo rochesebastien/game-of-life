@@ -14,7 +14,7 @@ function GamePage() {
 
   const [grid, setGrid] = useState(createEmptyGrid());
   const [running, setRunning] = useState(false);
-  const [speed, setSpeed] = useState(25);
+  const [speed, setSpeed] = useState(250);
   const [generation, setGeneration] = useState(0);
 
   const resetGrid = () => {

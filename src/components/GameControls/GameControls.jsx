@@ -21,7 +21,7 @@ function GameControls({ running, setRunning, resetGrid, setSpeed }) {
                     type="range"
                     min="0"
                     max="500"
-                    defaultValue="25"
+                    defaultValue={500 - 250}
                     onChange={(e) => setSpeed(500 - Number(e.target.value))}
                 />
             </span>
