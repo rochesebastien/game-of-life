@@ -15,6 +15,12 @@ Welcome to the "Game of Life" project, developed using React. This project imple
 
 
 # Project Overview
+[![](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://fr.react.dev/)
+[![](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://wikipedia.org/wiki/JavaScript)
+[![](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/)
+[![](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com)
+
+
 The "Game of Life" is a cellular automaton where cells live or die based on simple rules. This project uses React for the user interface and Vite for bundling, offering a fast and modern development experience.
 
 # Features
