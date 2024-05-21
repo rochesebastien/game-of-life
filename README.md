@@ -1,4 +1,4 @@
-# Game of Life - React & Vite
+# Conway's Game Of Life
 
 ![Image Description](docs/readme_cover.jpg)
 

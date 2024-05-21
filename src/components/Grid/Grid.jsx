@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Cell from '../Cell';
 import './Grid.css';
-function Grid({ rows, cols, grid, setGrid, running, speed }) {
+function Grid({ rows, cols, grid, setGrid, running, speed, setGeneration}) {
 
     const toggleCellState = (row, col) => {
         const newGrid = grid.map((rowArr, rowIndex) =>
@@ -43,7 +43,7 @@ function Grid({ rows, cols, grid, setGrid, running, speed }) {
                 return aliveNeighbors === 3;
             })
         );
-
+        setGeneration(prev => prev + 1);
         setGrid(newGrid);
     };
 
