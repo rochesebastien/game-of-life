@@ -3,6 +3,8 @@ import NavLogo from '../../components/NavLogo/NavLogo'; '../../components/NavLog
 import Grid from '../../components/Grid/Grid';
 import GameControls from '../../components/GameControls/GameControls';
 import GameInfo from '../../components/GameInfo/GameInfo';
+import CreditText from '../../components/CreditText/CreditText';
+
 import './Game.css'
 function GamePage() {
   const rows = Math.floor((0.9 * window.innerHeight) / 20);
@@ -34,6 +36,7 @@ function GamePage() {
         setSpeed={setSpeed}
       />
       <Grid rows={rows} cols={cols} grid={grid} setGrid={setGrid} running={running} speed={speed} setGeneration={setGeneration} />
+      <CreditText />
     </div>
   );
 }
