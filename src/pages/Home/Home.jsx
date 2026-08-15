@@ -9,7 +9,7 @@ function HomePage() {
             <Menu />
             
             <span className="credits">
-                Made with ❤️ by
+                Made with 🖤 by
                 <a href="https://sebastien-roche.fr" target="_blank" rel="noreferrer" data-tooltip="Visit my website">Seb</a>
                 in 2024
             </span>

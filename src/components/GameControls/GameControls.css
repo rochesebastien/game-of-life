@@ -36,6 +36,7 @@
     input{
         display: none;
         cursor: pointer;
+        accent-color: #ffffff;
     }
 
     &:hover input{
