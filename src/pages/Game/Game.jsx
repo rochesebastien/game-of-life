@@ -1,41 +1,47 @@
-import React, { useState, useEffect, useRef } from 'react';
-import NavLogo from '../../components/NavLogo/NavLogo'; '../../components/NavLogo/NavLogo'
+import React, { useEffect, useState } from 'react';
+import NavLogo from '../../components/NavLogo/NavLogo';
 import Grid from '../../components/Grid/Grid';
 import GameControls from '../../components/GameControls/GameControls';
 import GameInfo from '../../components/GameInfo/GameInfo';
 import CreditText from '../../components/CreditText/CreditText';
+import { nextGeneration } from '../../game/life';
 
 import './Game.css'
 function GamePage() {
-  const rows = Math.floor((0.9 * window.innerHeight) / 20);
-  const cols = Math.floor((0.9 * window.innerWidth) / 20);
-
-  const createEmptyGrid = () => {
-    return Array.from({ length: rows }).map(() => Array(cols).fill(false));
-  };
-
-  const [grid, setGrid] = useState(createEmptyGrid());
+  // Living cells only, keyed by "x,y": the board has no rows/cols limit.
+  const [cells, setCells] = useState(() => new Set());
   const [running, setRunning] = useState(false);
   const [speed, setSpeed] = useState(250);
   const [generation, setGeneration] = useState(0);
 
+  useEffect(() => {
+    if (!running) return undefined;
+
+    const interval = setInterval(() => {
+      setCells((previous) => nextGeneration(previous));
+      setGeneration((previous) => previous + 1);
+    }, speed);
+
+    return () => clearInterval(interval);
+  }, [running, speed]);
+
   const resetGrid = () => {
     setRunning(false);
     setGeneration(0);
-    setGrid(createEmptyGrid());
+    setCells(new Set());
   };
 
   return (
     <div className='game_ctn'>
       <NavLogo />
-      <GameInfo generation={generation} speed={speed} />
+      <GameInfo generation={generation} speed={speed} population={cells.size} />
       <GameControls
         running={running}
         setRunning={setRunning}
         resetGrid={resetGrid}
         setSpeed={setSpeed}
       />
-      <Grid rows={rows} cols={cols} grid={grid} setGrid={setGrid} running={running} speed={speed} setGeneration={setGeneration} />
+      <Grid cells={cells} setCells={setCells} />
       <CreditText />
     </div>
   );
