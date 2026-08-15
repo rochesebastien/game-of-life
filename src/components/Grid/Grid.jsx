@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Hand, Pen } from 'lucide-react';
 import { cellKey, parseKey } from '../../game/life';
 import './Grid.css';
 
@@ -419,21 +420,21 @@ function Grid({ cells, setCells }) {
             <div className="grid_viewport_controls">
                 <button
                     type="button"
-                    title={panning ? 'Draw cells (left click)' : 'Move the world (left click)'}
+                    data-tooltip={panning ? 'Switch to draw mode' : 'Switch to move mode'}
                     onClick={() => setMode(panning ? 'draw' : 'pan')}
                 >
-                    {panning ? 'move' : 'draw'}
+                    {panning ? <Hand size={18} /> : <Pen size={18} />}
                 </button>
-                <button type="button" title="Zoom out" onClick={() => zoomAt(0.8)}>−</button>
+                <button type="button" data-tooltip="Zoom out" onClick={() => zoomAt(0.8)}>−</button>
                 <button
                     type="button"
                     className="grid_zoom_level"
-                    title="Back to the origin"
+                    data-tooltip="Back to the origin"
                     onClick={resetView}
                 >
                     {formatZoom(zoom)}
                 </button>
-                <button type="button" title="Zoom in" onClick={() => zoomAt(1.25)}>+</button>
+                <button type="button" data-tooltip="Zoom in" onClick={() => zoomAt(1.25)}>+</button>
             </div>
 
             <p className="grid_hint">wheel / pinch : zoom · right click or space + drag : move</p>

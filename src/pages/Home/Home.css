@@ -34,11 +34,15 @@
     position: fixed;
     bottom: 20px;
     right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
     font-size: 1.2rem;
     font-weight: 500;
-    text-align: right;
     z-index: 1;
     a{
         color: white;
+        font: inherit;
+        line-height: 1;
     }
 }

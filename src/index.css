@@ -24,3 +24,41 @@ body {
   color: var(--primary-color, #f0f0f0);
   font-family: var(--primary-font, 'Pixelify Sans', sans-serif);
 }
+
+/* Tooltips: any element with a data-tooltip attribute shows it on hover.
+   :where() keeps specificity at zero so positioned elements stay untouched. */
+:where([data-tooltip]){
+  position: relative;
+}
+
+[data-tooltip]::after{
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  background-color: black;
+  color: var(--primary-color, #f0f0f0);
+  border: 1px solid white;
+  border-radius: 8px;
+  padding: 0.3rem 0.6rem;
+  font-family: var(--primary-font, 'Pixelify Sans', sans-serif);
+  font-size: 0.75rem;
+  font-weight: 400;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 10;
+}
+
+[data-tooltip]:hover::after{
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* Variant for elements near the top of the screen: tooltip below. */
+[data-tooltip][data-tooltip-pos="bottom"]::after{
+  bottom: auto;
+  top: calc(100% + 10px);
+}

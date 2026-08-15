@@ -3,7 +3,6 @@ import NavLogo from '../../components/NavLogo/NavLogo';
 import Grid from '../../components/Grid/Grid';
 import GameControls from '../../components/GameControls/GameControls';
 import GameInfo from '../../components/GameInfo/GameInfo';
-import CreditText from '../../components/CreditText/CreditText';
 import { nextGeneration } from '../../game/life';
 
 import './Game.css'
@@ -42,7 +41,6 @@ function GamePage() {
         setSpeed={setSpeed}
       />
       <Grid cells={cells} setCells={setCells} />
-      <CreditText />
     </div>
   );
 }
