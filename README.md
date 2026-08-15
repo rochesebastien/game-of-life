@@ -24,10 +24,21 @@ Welcome to the "Game of Life" project, developed using React. This project imple
 The "Game of Life" is a cellular automaton where cells live or die based on simple rules. This project uses React for the user interface and Vite for bundling, offering a fast and modern development experience.
 
 # Features
-- Interactive Grid: Click to toggle cell states (alive or dead).
+- Infinite Board: The canvas has no borders, cells can live anywhere.
+- Zoom & Pan: Wheel or pinch to zoom, right click / space + drag / two fingers to move around.
+- Interactive Grid: Click or drag to toggle cell states (alive or dead).
 - Start/Pause: Control the evolution of the grid with start and pause buttons.
 - Adjustable Speed: Change the speed of the generation evolution.
 - Reset: Reset the grid to its initial state.
+
+## Controls
+
+| Action | Mouse / keyboard | Touch |
+| --- | --- | --- |
+| Draw or erase cells | left click, drag to paint | one finger (draw mode) |
+| Move the world | right click drag, space + drag, arrow keys, or "move" mode | one finger (move mode), two fingers |
+| Zoom | wheel, `+` / `-` keys, zoom buttons | pinch |
+| Back to the origin at 100% | `0` key or the zoom percentage button | zoom percentage button |
 
 # Prerequisites
 
