@@ -31,7 +31,7 @@ The "Game of Life" is a cellular automaton where cells live or die based on simp
 
 # Prerequisites
 
-- Node.js (version 14 or higher)
+- Node.js 22.12 or higher (24 LTS recommended — see `.nvmrc`, run `nvm use`)
 - npm or yarn
 
 # Installation
