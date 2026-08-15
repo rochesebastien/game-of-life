@@ -10,10 +10,67 @@
     border: 2px solid white;
     border-radius: 30px;
     gap: 0.5rem;
-    cursor:pointer;
 }
 
-.sound_controls img{
-    filter: invert(1);
+/* Volume menu, revealed when hovering the music pill. */
+.sound_menu{
+    position: absolute;
+    bottom: calc(100% + 0.6rem);
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem;
+    background-color: black;
+    border: 2px solid white;
+    border-radius: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(6px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
+/* Invisible bridge so the menu stays open while crossing the gap. */
+.sound_menu::before{
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 0.8rem;
+}
+
+.sound_controls:hover .sound_menu{
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.sound_menu button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #131314;
+    color: #ff4d4d;
+    cursor: pointer;
+}
+
+.sound_menu button:hover,
+.sound_menu button.active{
+    background-color: rgba(66, 65, 65, 0.5);
+}
+
+.sound_slider{
+    display: flex;
+    align-items: center;
+    padding: 0 0.3rem;
+}
+
+.sound_slider input{
+    width: 100px;
+    cursor: pointer;
+    accent-color: #2ecc40;
+}
