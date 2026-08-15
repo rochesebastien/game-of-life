@@ -30,19 +30,25 @@
     filter: invert(1);
 }
 
+/* Plain inline text: every part sits on the same baseline by construction,
+   which a flex row would break as soon as one part is taller than the others. */
 .credits{
     position: fixed;
     bottom: 20px;
     right: 20px;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
     font-size: 1.2rem;
     font-weight: 500;
+    line-height: 1.2;
     z-index: 1;
     a{
         color: white;
         font: inherit;
-        line-height: 1;
     }
+}
+
+/* The emoji falls back to the system emoji font, taller than Pixelify Sans:
+   sizing it down keeps it from pushing the line around. */
+.credits_heart{
+    font-size: 0.85em;
+    vertical-align: baseline;
 }
