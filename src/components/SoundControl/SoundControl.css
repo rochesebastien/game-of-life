@@ -54,7 +54,7 @@
     border: none;
     border-radius: 8px;
     background-color: #131314;
-    color: #ff4d4d;
+    color: var(--primary-color, #f0f0f0);
     cursor: pointer;
 }
 
