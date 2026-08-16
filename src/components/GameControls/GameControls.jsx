@@ -6,16 +6,20 @@ function GameControls({ running, setRunning, resetGrid, setSpeed }) {
     return (
         <div className="game_controls">
 
-            <span onClick={() => setRunning(!running)} data-tooltip={running ? 'Pause the simulation (Space)' : 'Start the simulation (Space)'}>
+            <span
+                onClick={() => setRunning(!running)}
+                data-tooltip={running ? 'Pause the simulation (Space)' : 'Start the simulation (Space)'}
+                data-tooltip-pos="bottom"
+            >
                 {running ?
                     <img src="/icons/pause.svg" alt="Pause"/> :
                     <img src="/icons/play.svg" alt="Play"/>
                     }
             </span>
-            <span onClick={resetGrid} data-tooltip="Reset the grid">
+            <span onClick={resetGrid} data-tooltip="Reset the grid" data-tooltip-pos="bottom">
                 <img src="/icons/reset.svg" alt="Reset"/>
             </span>
-            <span className="speed" data-tooltip="Change the simulation speed">
+            <span className="speed" data-tooltip="Change the simulation speed" data-tooltip-pos="bottom">
                 <img src="/icons/gauge.svg" alt="Speed"/>
                 <input 
                     type="range"

@@ -25,7 +25,7 @@
 .grid_viewport_controls{
     position: fixed;
     right: 20px;
-    bottom: 6.5rem;
+    bottom: 20px;
     padding: 0.8rem;
     border: 2px solid white;
     background-color: black;
