@@ -24,6 +24,22 @@ function GamePage() {
     return () => clearInterval(interval);
   }, [running, speed]);
 
+  // Space toggles the simulation. preventDefault keeps the page from
+  // scrolling and stops the key from re-triggering a focused button.
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.code !== 'Space') return;
+      if (event.repeat) return;
+      if (event.target instanceof HTMLInputElement) return;
+
+      event.preventDefault();
+      setRunning((previous) => !previous);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const resetGrid = () => {
     setRunning(false);
     setGeneration(0);

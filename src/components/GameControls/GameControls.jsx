@@ -6,7 +6,7 @@ function GameControls({ running, setRunning, resetGrid, setSpeed }) {
     return (
         <div className="game_controls">
 
-            <span onClick={() => setRunning(!running)} data-tooltip={running ? 'Pause the simulation' : 'Start the simulation'}>
+            <span onClick={() => setRunning(!running)} data-tooltip={running ? 'Pause the simulation (Space)' : 'Start the simulation (Space)'}>
                 {running ?
                     <img src="/icons/pause.svg" alt="Pause"/> :
                     <img src="/icons/play.svg" alt="Play"/>

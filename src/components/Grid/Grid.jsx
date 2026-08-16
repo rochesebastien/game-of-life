@@ -51,7 +51,6 @@ function Grid({ cells, setCells }) {
     const pointersRef = useRef(new Map());
     const gestureRef = useRef(null);
     const strokeRef = useRef(null);
-    const spaceRef = useRef(false);
     const modeRef = useRef('draw');
 
     const [mode, setMode] = useState('draw');
@@ -211,9 +210,10 @@ function Grid({ cells, setCells }) {
         });
     }, [setCells]);
 
+    // Space is reserved for play/pause, panning goes through the hand mode,
+    // the right button or the middle button.
     const isPanIntent = (event) => (
         modeRef.current === 'pan'
-        || spaceRef.current
         || event.button === 1
         || event.button === 2
     );
@@ -352,10 +352,6 @@ function Grid({ cells, setCells }) {
             const step = 120 / camera.scale; // always ~120px on screen
 
             switch (event.key) {
-                case ' ':
-                    spaceRef.current = true;
-                    event.preventDefault();
-                    break;
                 case '+':
                 case '=':
                     zoomAt(1.25);
@@ -387,18 +383,13 @@ function Grid({ cells, setCells }) {
                     break;
             }
         };
-        const handleKeyUp = (event) => {
-            if (event.key === ' ') spaceRef.current = false;
-        };
         window.addEventListener('keydown', handleKeyDown);
-        window.addEventListener('keyup', handleKeyUp);
 
         return () => {
             observer.disconnect();
             window.removeEventListener('resize', resize);
             canvas.removeEventListener('wheel', handleWheel);
             window.removeEventListener('keydown', handleKeyDown);
-            window.removeEventListener('keyup', handleKeyUp);
             if (frameRef.current) cancelAnimationFrame(frameRef.current);
         };
     }, [moveCamera, resetView, resize, zoomAt]);
@@ -437,7 +428,7 @@ function Grid({ cells, setCells }) {
                 <button type="button" data-tooltip="Zoom in" onClick={() => zoomAt(1.25)}>+</button>
             </div>
 
-            <p className="grid_hint">wheel / pinch : zoom · right click or space + drag : move</p>
+            <p className="grid_hint">wheel / pinch : zoom · right click + drag : move · space : play / pause</p>
         </div>
     );
 }
