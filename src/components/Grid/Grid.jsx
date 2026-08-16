@@ -9,10 +9,15 @@ const MAX_SCALE = 240;      // a single cell fills a big chunk of the screen
 const GRID_LINES_FROM = 6;  // below that, cells are too small to draw borders
 const WORLD_LIMIT = 1e9;    // far beyond anything reachable, keeps maths precise
 
+const MIN_BRUSH = 1;        // a single cell, the historical behaviour
+const MAX_BRUSH = 64;       // wide enough to fill a screen, cheap enough to paint
+
 const BACKGROUND_COLOR = '#000000';
 const LINE_COLOR = '#171718';
 const AXIS_COLOR = '#2a2a2d';
 const CELL_COLOR = '#ffffff';
+const BRUSH_HALO_COLOR = 'rgba(0, 0, 0, 0.8)';
+const BRUSH_RING_COLOR = 'rgba(255, 255, 255, 0.9)';
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
@@ -24,10 +29,14 @@ const formatZoom = (scale) => {
 
 const MAX_STROKE_STEPS = 512; // a drag while fully zoomed out crosses thousands of cells
 
-/** Every cell crossed by the segment going from one cell to another. */
-const lineBetween = (from, to) => {
+/**
+ * Every cell crossed by the segment going from one cell to another.
+ * `spacing` leaves gaps between the samples: a wide brush covers them anyway,
+ * and it keeps a single drag from expanding into millions of cell tests.
+ */
+const lineBetween = (from, to, spacing = 1) => {
     const distance = Math.max(Math.abs(to[0] - from[0]), Math.abs(to[1] - from[1]));
-    const steps = Math.min(distance, MAX_STROKE_STEPS);
+    const steps = Math.min(Math.ceil(distance / spacing), MAX_STROKE_STEPS);
     if (steps === 0) return [to];
 
     const points = [];
@@ -39,6 +48,24 @@ const lineBetween = (from, to) => {
     }
     return points;
 };
+
+/** The disc of cells covered by a brush of `size` cells across, centred on a cell. */
+const brushCells = (centerX, centerY, size) => {
+    if (size <= 1) return [[centerX, centerY]];
+
+    const radius = size / 2;
+    const reach = Math.floor(radius);
+    const cells = [];
+    for (let dy = -reach; dy <= reach; dy += 1) {
+        for (let dx = -reach; dx <= reach; dx += 1) {
+            if (dx * dx + dy * dy <= radius * radius) cells.push([centerX + dx, centerY + dy]);
+        }
+    }
+    return cells;
+};
+
+/** Bigger brushes grow faster, so the full range stays a few wheel notches away. */
+const brushStep = (size) => Math.max(1, Math.round(size * 0.2));
 
 function Grid({ cells, setCells }) {
     const canvasRef = useRef(null);
@@ -52,9 +79,13 @@ function Grid({ cells, setCells }) {
     const gestureRef = useRef(null);
     const strokeRef = useRef(null);
     const modeRef = useRef('draw');
+    const brushRef = useRef(MIN_BRUSH);
+    // Last pointer position, in client coordinates, for the brush preview.
+    const hoverRef = useRef(null);
 
     const [mode, setMode] = useState('draw');
     const [zoom, setZoom] = useState(DEFAULT_SCALE);
+    const [brush, setBrush] = useState(MIN_BRUSH);
 
     modeRef.current = mode;
 
@@ -118,6 +149,29 @@ function Grid({ cells, setCells }) {
             const [x, y] = parseKey(key);
             if (x < minCol || x > maxCol || y < minRow || y > maxRow) continue;
             ctx.fillRect(originX + x * scale, originY + y * scale, size, size);
+        }
+
+        // Brush preview, the way an image editor shows the size of its tool.
+        // It is centred on the hovered cell so it frames exactly what a click paints.
+        const hover = hoverRef.current;
+        if (hover && modeRef.current === 'draw') {
+            const rect = canvas.getBoundingClientRect();
+            const cellX = Math.floor((hover.x - rect.left - originX) / scale);
+            const cellY = Math.floor((hover.y - rect.top - originY) / scale);
+            const centerX = originX + (cellX + 0.5) * scale;
+            const centerY = originY + (cellY + 0.5) * scale;
+            const radius = Math.max((brushRef.current / 2) * scale, 4);
+
+            // A dark halo under a light ring keeps the circle readable over both
+            // the empty background and a dense cluster of living cells.
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = BRUSH_HALO_COLOR;
+            ctx.stroke();
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = BRUSH_RING_COLOR;
+            ctx.stroke();
         }
     }, []);
 
@@ -191,12 +245,15 @@ function Grid({ cells, setCells }) {
         const stroke = strokeRef.current;
         if (!stroke) return;
 
+        const size = brushRef.current;
         const fresh = [];
         for (const [x, y] of targets) {
-            const key = cellKey(x, y);
-            if (stroke.painted.has(key)) continue;
-            stroke.painted.add(key);
-            fresh.push(key);
+            for (const [brushX, brushY] of brushCells(x, y, size)) {
+                const key = cellKey(brushX, brushY);
+                if (stroke.painted.has(key)) continue;
+                stroke.painted.add(key);
+                fresh.push(key);
+            }
         }
         if (fresh.length === 0) return;
 
@@ -261,6 +318,9 @@ function Grid({ cells, setCells }) {
     };
 
     const handlePointerMove = (event) => {
+        hoverRef.current = { x: event.clientX, y: event.clientY };
+        requestDraw();
+
         const pointers = pointersRef.current;
         if (!pointers.has(event.pointerId)) return;
         pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
@@ -297,7 +357,7 @@ function Grid({ cells, setCells }) {
         if (stroke) {
             const cell = screenToCell(event.clientX, event.clientY);
             if (cell[0] === stroke.last[0] && cell[1] === stroke.last[1]) return;
-            paintCells(lineBetween(stroke.last, cell));
+            paintCells(lineBetween(stroke.last, cell, Math.max(1, brushRef.current / 2)));
             stroke.last = cell;
         }
     };
@@ -340,10 +400,35 @@ function Grid({ cells, setCells }) {
         // Wheel must be non passive to prevent the browser from scrolling/zooming.
         const handleWheel = (event) => {
             event.preventDefault();
+
+            // Ctrl (or Cmd) turns the wheel into a brush size control.
+            if (event.ctrlKey || event.metaKey) {
+                const direction = event.deltaY > 0 ? -1 : 1;
+                const next = clamp(
+                    brushRef.current + direction * brushStep(brushRef.current),
+                    MIN_BRUSH,
+                    MAX_BRUSH,
+                );
+                if (next === brushRef.current) return;
+
+                brushRef.current = next;
+                setBrush(next);
+                hoverRef.current = { x: event.clientX, y: event.clientY };
+                requestDraw();
+                return;
+            }
+
             const unit = event.deltaMode === 1 ? 20 : event.deltaMode === 2 ? 400 : 1;
             zoomAt(Math.exp((-event.deltaY * unit) / 400), event.clientX, event.clientY);
         };
         canvas.addEventListener('wheel', handleWheel, { passive: false });
+
+        // The preview must not linger once the pointer leaves the board.
+        const handlePointerLeave = () => {
+            hoverRef.current = null;
+            requestDraw();
+        };
+        canvas.addEventListener('pointerleave', handlePointerLeave);
 
         const handleKeyDown = (event) => {
             if (event.target instanceof HTMLInputElement) return;
@@ -389,10 +474,16 @@ function Grid({ cells, setCells }) {
             observer.disconnect();
             window.removeEventListener('resize', resize);
             canvas.removeEventListener('wheel', handleWheel);
+            canvas.removeEventListener('pointerleave', handlePointerLeave);
             window.removeEventListener('keydown', handleKeyDown);
             if (frameRef.current) cancelAnimationFrame(frameRef.current);
         };
-    }, [moveCamera, resetView, resize, zoomAt]);
+    }, [moveCamera, requestDraw, resetView, resize, zoomAt]);
+
+    // Switching to the hand hides the preview, switching back brings it out.
+    useEffect(() => {
+        requestDraw();
+    }, [mode, requestDraw]);
 
     const panning = mode === 'pan';
 
@@ -411,7 +502,7 @@ function Grid({ cells, setCells }) {
             <div className="grid_viewport_controls">
                 <button
                     type="button"
-                    data-tooltip={panning ? 'Switch to draw mode' : 'Switch to move mode'}
+                    data-tooltip={panning ? 'Switch to draw mode' : `Switch to move mode · brush ${brush}`}
                     onClick={() => setMode(panning ? 'draw' : 'pan')}
                 >
                     {panning ? <Hand size={18} /> : <Pen size={18} />}
@@ -428,7 +519,9 @@ function Grid({ cells, setCells }) {
                 <button type="button" data-tooltip="Zoom in" onClick={() => zoomAt(1.25)}>+</button>
             </div>
 
-            <p className="grid_hint">wheel / pinch : zoom · right click + drag : move · space : play / pause</p>
+            <p className="grid_hint">
+                wheel : zoom · ctrl + wheel : brush · right click + drag : move · space : play / pause
+            </p>
         </div>
     );
 }
